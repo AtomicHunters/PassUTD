@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Title -->
+<h2 class="text-3xl font-semibold mb-6 text-gray-700">Stored Passwords</h2>
+
+<!-- Password Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for p in passwords %}
+  <!-- Single Password Card -->
+  <div class="bg-white rounded-3xl shadow-md p-6 hover:shadow-lg transition">
+
+    <!-- Header: Site + Tag -->
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="text-xl font-bold text-gray-800">{{ p.site }}</h3>
+      <!-- Tag label styling is assumed to be dynamic (tag.color + tag.label) -->
+      <span class="px-3 py-1 text-sm rounded-full {{ p.tag.color }}">
+        {{ p.tag.label }}
+      </span>
+    </div>
+
+    <!-- Username and Password -->
+    <p class="text-gray-600"><strong>User:</strong> {{ p.username }}</p>
+    <p class="text-gray-500 font-mono"><strong>Pass:</strong> {{ p.password }}</p>
+
+    <!-- Action Buttons -->
+    <div class="mt-4 flex space-x-2">
+      <button 
+        class="px-4 py-2 bg-gray-100 rounded-2xl 
+               hover:bg-gray-200 transform transition duration-200 ease-in-out 
+               hover:scale-105 hover:shadow-lg"
+      >
+        Edit
+      </button>
+
+      <button 
+        class="px-4 py-2 bg-red-300 text-red-900 rounded-2xl 
+               hover:bg-red-400 transform transition duration-200 ease-in-out 
+               hover:scale-105 hover:shadow-lg"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
