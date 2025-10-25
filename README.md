@@ -1,8 +1,10 @@
-# PassUTD
-Password Encrypter and Manager
+# PassUTD - Secure password Manager
+This app is a work in progress and is currently incomplete
 
+## Requirements
+- Python 3.x
+- Flask library (pip install flask)
 
-The app is launched by running the app.py, and opening your local host.
-The backend portion uses uses mysql-connector-python, which you need to pip install and utilizes python 3.11. login and request account still need to be added, code must still be added/pushed.
-The database will develope php scripts to help with integration, code still needs to be added/pushed. 
-The hashing and encryption code is still to be added/pushed
+## How to Run
+1. Run app.py `python app.py`
+2. Open local host in a web browser `http://localhost:5000/`
