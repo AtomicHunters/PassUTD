@@ -1,9 +1,9 @@
 # PassUTD - Secure password Manager
-This app is a work in progress and is currently incomplete
+This app is a work in progress and is currently incomplete.
 
 ## Requirements
 - Python 3.x
-- Flask library (pip install flask)
+- Flask library `pip install flask`
 
 ## How to Run
 1. Run app.py `python app.py`
