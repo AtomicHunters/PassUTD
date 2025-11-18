@@ -30,5 +30,5 @@ DO THE FOLLOWING IN POWERSHELL:
 ### Connect to mySQL (will not have to do this in the future):
 ```mysql -h 127.0.0.1 -P 3307 -u root -p --execute="source Database Script.sql"```
 - 3307 may be changed to another port if you've decided to use something else
-- Database script path is the relative path from
+- Database script path is the relative path
 
