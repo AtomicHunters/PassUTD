@@ -1,0 +1,10 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: passUTD
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passUTD
+    volumes:
+      - ./Database Script.sql:/docker-entrypoint-initdb.d/database.sql
