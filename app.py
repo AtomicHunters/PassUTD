@@ -12,6 +12,7 @@ app.config['MYSQL_DB'] = 'mydb'
 mysql = MySQL(app)
 @app.route("/")
 def index():
+    # {"site": "Bank of America", "username": "alice_banking", "password": "••••••••", "category": "Banking", "tag": {"label": "Important", "color": "bg-pink-200"}}
     passwords = [
         {"site": "Bank of America", "username": "alice_banking", "password": "••••••••", "category": "Banking", "tag": {"label": "Important", "color": "bg-pink-200"}},
         {"site": "Chase", "username": "bob123", "password": "••••••••", "category": "Banking", "tag": {"label": "Work", "color": "bg-purple-200"}},
