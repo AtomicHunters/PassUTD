@@ -12,7 +12,7 @@ def start_client(HOST, PORT):
         clientsocket.connect((HOST, PORT))
         while True:
             message = input("Msg: ")
-            clientsocket.send(message.encode('utf-8'))
+            clientsocket.send(message.encode('utf-8')) # GUI -> Client Message -> Server -> MySQL DB
 
     except ConnectionRefusedError:
         print("[ERROR] Could not connect to server. Is it running?")

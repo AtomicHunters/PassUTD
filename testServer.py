@@ -11,7 +11,7 @@ def handle_client(client_socket,address):
 
     try:
         while True:
-            data = client_socket.recv(1024).decode('utf-8')
+            data = client_socket.recv(1024).decode('utf-8') # Server -> Parse into SQL command -> MySQL DB
             if not data:
                 break
             if data.lower() == 'quit':
@@ -36,7 +36,7 @@ def start_server():
             print("[INFO] Accepted connection from %s:%d" % (client_addr[0], client_addr[1]))
             handle_client(client_socket, client_addr)
     except KeyboardInterrupt:
-        print("\n[SHUTDOWN] Server is shutting down")
+        print("[SHUTDOWN] Server is shutting down")
     finally:
         server_socket.close()
 
