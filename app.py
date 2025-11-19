@@ -18,7 +18,7 @@ def index():
         {"site": "Facebook", "username": "alice.fb", "password": "••••••••", "category": "Social Media", "tag": {"label": "Personal", "color": "bg-green-200"}},
         {"site": "Twitter", "username": "bob_tweets", "password": "••••••••", "category": "Social Media", "tag": {"label": "Side Project", "color": "bg-yellow-200"}},
     ]
-    categories = ["All", "Banking", "Social Media"]
+    categories = ["All", "Banking", "Social Media", "Work", "Other"]
     return render_template("index.html", passwords=passwords, categories=categories)
 
 @app.route("/add", methods=["GET","POST"]) # currently missing login page so can't generate userIDs
