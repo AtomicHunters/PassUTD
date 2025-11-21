@@ -28,6 +28,7 @@ DO THE FOLLOWING IN POWERSHELL:
 
 - Only do this if docker container is ever stopped and needs to be started back up
 ### Connect to mySQL (will not have to do this in the future):
+#### MUST ADD mysql/bin to PATH
 ```mysql -h 127.0.0.1 -P 3307 -u root -p --execute="source Database Script.sql"```
 - 3307 may be changed to another port if you've decided to use something else
 - Database script path is the relative path
