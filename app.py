@@ -100,7 +100,7 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["confPassword"]
-        if(password != password2):
+        if(password != password2): # password mismatch
             msg = 'Registration failed'
             return render_template(msg=msg)
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -108,7 +108,7 @@ def register():
             'INSERT INTO user (username, password) VALUES (%s, %s)',
             (username, password,)
         )
-        return render_template()
+        return redirect(url_for('login'))
     return render_template()
 
 if __name__ == "__main__":
