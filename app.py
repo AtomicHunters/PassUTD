@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
-import MySQLdb.cursors, uuid
+import MySQLdb.cursors, uuid, time
 app = Flask(__name__)
+app.secret_key = 'a7329ca869d9d4ac97f5a71f0e88726077de0a58b84eb6a97960990e6bc522883797a8207bebcc0fb977ca9a8f4754aa3aaf9dd2f7ce2cbf858201ed90557a20'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -54,6 +55,8 @@ def tag_color(tag):
             return "bg-yellow-200"
 @app.route("/add", methods=['GET','POST']) # currently missing login page so can't generate userIDs
 def add_password():
+    if "userID" not in session:
+        return redirect(url_for('login'))
     if request.method == "POST":
         entryID = uuid.uuid4()
         site = request.form["site"]
@@ -92,24 +95,29 @@ def login():
         else:
             session['userID'] = user['user_userID']
             return redirect(url_for('index'))
-    return render_template()
+    return render_template('login.html') # add login.html
 
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "POST":
         username = request.form["username"]
-        password = request.form["password"]
-        password2 = request.form["confPassword"]
+        password = request.form["password"] # hash this
+        password2 = request.form["confPassword"] # hash this
         if(password != password2): # password mismatch
             msg = 'Registration failed'
             return render_template(msg=msg)
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
             'INSERT INTO user (username, password) VALUES (%s, %s)',
-            (username, password,)
+            (username, password,) # timestamp and userID auto increment
         )
         return redirect(url_for('login'))
-    return render_template()
+    return render_template('register.html') # add register.html
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return render_template('logout.html', delay=3)
 
 if __name__ == "__main__":
     app.run(debug=True)
