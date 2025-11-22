@@ -23,10 +23,11 @@ USE `mydb` ;
 DROP TABLE IF EXISTS `mydb`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`user` (
-  `username` VARCHAR(16) NOT NULL,
-  `loginPsswd` VARCHAR(129) NOT NULL,
-  `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `userID` INT AUTO_INCREMENT NOT NULL,
+  `username` VARCHAR(16) NOT NULL,
+  `loginPsswd` VARCHAR(256) NOT NULL,
+  `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `salt` VARBINARY(16) NULL,
   PRIMARY KEY (`userID`));
 
 
@@ -42,7 +43,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`vault` (
   `serviceName` VARCHAR(45) NULL,
   `serviceCategory` VARCHAR(45) NULL,
   `serviceTag` VARCHAR(45) NULL,
-  `encryptPassword` VARCHAR(129) NULL,
+  `encryptPassword` VARCHAR(256) NULL,
+  `nonce` VARCHAR(256) NULL,
   `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`entryID`, `user_userID`),
   INDEX `fk_vault_user_idx` (`user_userID` ASC) VISIBLE,

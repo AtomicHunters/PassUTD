@@ -3,39 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Password Manager</title>
+    {% block head %}{% endblock %}
   <!-- TailwindCSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-r from-pink-50 to-blue-50 min-h-screen flex font-sans">
 
   <!-- Sidebar -->
-  <aside class="w-64 bg-white/80 backdrop-blur-lg shadow-xl rounded-r-3xl p-6 flex flex-col">
+<aside class="w-64 bg-white/80 backdrop-blur-lg shadow-xl rounded-r-3xl p-6 flex flex-col">
     <!-- App Title -->
-    <h1 class="text-2xl font-bold mb-6 text-gray-800">PassUTD</h1>
+    <a href="/" class="no-underline">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">PassUTD</h1>
+    </a>
 
     <!-- Categories Navigation -->
     <nav class="flex flex-col divide-y divide-blue-100 rounded-2xl overflow-hidden">
-      {% for c in categories %}
-        <a 
-          href="#" 
-          class="px-4 py-3 hover:bg-blue-100 transition text-gray-700"
+        {% for c in categories %}
+        <a
+            href="/?category={{ c | urlencode }}"
+            class="px-4 py-3 hover:bg-blue-100 transition text-gray-700"
         >
-          {{ c }}
+            {{ c }}
         </a>
-      {% endfor %}
-    </nav>    
+        {% endfor %}
+    </nav>
 
-    <!-- Add New Password Button -->
-    <div class="mt-auto pt-6">
-      <a 
-        href="{{ url_for('add_password') }}" 
-        class="block w-full text-center bg-blue-400 text-white rounded-2xl py-2 
-               hover:bg-blue-500 transform transition duration-200 ease-in-out hover:scale-105 hover:shadow-lg"
-      >
-        + Add
-      </a>
+    <!-- Bottom Buttons Container -->
+    <div class="mt-auto flex flex-col space-y-4 pt-6">
+        {% if show_add %}
+        <!-- Add New Password Button -->
+        <a
+            href="{{ url_for('add_password') }}"
+            class="block w-full text-center bg-blue-400 text-white rounded-2xl py-2
+                   hover:bg-blue-500 transform transition duration-200 ease-in-out hover:scale-105 hover:shadow-lg"
+        >
+            + Add
+        </a>
+        {% endif %}
+
+        <!-- Logout Button -->
+        <a
+            href="{{ url_for('logout') }}"
+            class="block w-full text-center bg-red-300 text-red-900 rounded-2xl py-2
+                   hover:bg-red-400 transform transition duration-200 ease-in-out hover:scale-105 hover:shadow-lg"
+        >
+            Log out
+        </a>
     </div>
-  </aside>
+</aside>
 
   <!-- Main Content Area -->
   <main class="flex-1 p-8">
