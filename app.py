@@ -25,9 +25,18 @@ def index():
         passwords = []
         userID = session.get('userID')
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM vault WHERE user_userID = %s', (userID,)
-        )
+        selected_category = request.args.get('category')
+        if not selected_category or selected_category == 'All':
+            cursor.execute(
+                'SELECT * FROM vault WHERE user_userID = %s',
+                (userID,)
+            )
+
+        else:
+            cursor.execute(
+                'SELECT * FROM vault WHERE user_userID = %s AND serviceCategory = %s',
+                (userID, selected_category)
+            )
         for row in cursor.fetchall():
             passwords.append({
                 "site": row["serviceName"],
@@ -67,7 +76,8 @@ def add_password():
         tag = request.form["tag"]
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'INSERT INTO vault (entryID, user_userID, serviceUsername, serviceName, serviceCategory, encryptPassword, serviceTag) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+            'INSERT INTO vault (entryID, user_userID, serviceUsername, serviceName, serviceCategory, encryptPassword, serviceTag)'
+            'VALUES (%s, %s, %s, %s, %s, %s, %s)',
             (entryID,userID,username,site,category,password,tag)
         )
         mysql.connection.commit()
