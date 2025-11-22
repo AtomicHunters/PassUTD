@@ -24,38 +24,28 @@ def index():
     if "userID" not in session:
         return redirect(url_for('login'))
 
+    userID = session.get('userID')
+    selected_category = request.args.get('category')
+    categories = ["All", "Banking", "Social Media", "Work", "Other"]
     if request.method == 'GET':
-        passwords = []
-        userID = session.get('userID')
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        selected_category = request.args.get('category')
-
-        if not selected_category or selected_category == 'All':
-            cursor.execute('SELECT * FROM vault WHERE user_userID = %s', (userID,))
-        else:
-            cursor.execute(
-                'SELECT * FROM vault WHERE user_userID = %s AND serviceCategory = %s',
-                (userID, selected_category)
-            )
-
-        for row in cursor.fetchall():
-            passwords.append({
-                "passwordID": row["entryID"],
-                "site": row["serviceName"],
-                "username": row["serviceUsername"],
-                "password": "••••••••",
-                "category": row["serviceCategory"],
-                "tag": {
-                    "label": row["serviceTag"],
-                    "color": tag_color(row["serviceTag"])
-                }
-            })
-
-        categories = ["All", "Banking", "Social Media", "Work", "Other"]
-        return render_template("index.html", passwords=passwords, categories=categories, show_add=True)
+        passwords = load_passwords(userID, "", selected_category=selected_category)
+        return render_template("index.html", passwords=passwords, categories=categories, show_add=True, )
 
     passID = request.form['password_id']
     action = request.form['action']
+
+    if action == 'toggle':
+        clicked_id = passID
+        current_show_id = request.form.get('current_show_id')
+
+        if current_show_id == clicked_id:
+            show_id = None
+        else:
+            show_id = clicked_id
+
+        passwords = load_passwords(userID, show_id, selected_category)
+        return render_template("index.html", passwords=passwords, show_add=True,
+                               categories=categories, show_id=show_id)
 
     if action == 'delete':
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -69,6 +59,48 @@ def index():
 
     return redirect(url_for('index'))
 
+def load_passwords(userID, reveal_id=None, selected_category=None):
+    passwords =[]
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if not selected_category or selected_category == 'All':
+        cursor.execute('SELECT * FROM vault WHERE user_userID = %s', (userID,))
+    else:
+        cursor.execute(
+            'SELECT * FROM vault WHERE user_userID = %s AND serviceCategory = %s',
+            (userID, selected_category)
+        )
+
+    for row in cursor.fetchall():
+        if str(reveal_id) == str(row['entryID']):
+            key = base64.b64decode(session['key'])
+            decrypted = decrypt_vault_entry(key, {
+                "ciphertext": row["encryptPassword"],
+                "nonce": row["nonce"]
+            })
+            passwords.append({
+                "passwordID": row["entryID"],
+                "site": row["serviceName"],
+                "username": row["serviceUsername"],
+                "password": decrypted,
+                "category": row["serviceCategory"],
+                "tag": {
+                    "label": row["serviceTag"],
+                    "color": tag_color(row["serviceTag"])
+                }
+            })
+        else:
+            passwords.append({
+                "passwordID": row["entryID"],
+                "site": row["serviceName"],
+                "username": row["serviceUsername"],
+                "password": "••••••••",
+                "category": row["serviceCategory"],
+                "tag": {
+                    "label": row["serviceTag"],
+                    "color": tag_color(row["serviceTag"])
+                }
+            })
+    return passwords
 
 def tag_color(tag):
     match tag:
