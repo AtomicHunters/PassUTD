@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
-import MySQLdb.cursors, uuid, time
+import MySQLdb.cursors, uuid
 app = Flask(__name__)
 app.secret_key = 'a7329ca869d9d4ac97f5a71f0e88726077de0a58b84eb6a97960990e6bc522883797a8207bebcc0fb977ca9a8f4754aa3aaf9dd2f7ce2cbf858201ed90557a20'
 
@@ -31,7 +31,6 @@ def index():
                 'SELECT * FROM vault WHERE user_userID = %s',
                 (userID,)
             )
-
         else:
             cursor.execute(
                 'SELECT * FROM vault WHERE user_userID = %s AND serviceCategory = %s',
@@ -50,7 +49,7 @@ def index():
             })
 
     categories = ["All", "Banking", "Social Media", "Work", "Other"]
-    return render_template("index.html", passwords=passwords, categories=categories)
+    return render_template("index.html", passwords=passwords, categories=categories, show_add=True)
 
 def tag_color(tag):
     match tag:
