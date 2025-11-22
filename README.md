@@ -9,7 +9,7 @@ This app is a work in progress and is currently incomplete.
 - Argon `pip install argon2-cffi`
 - Docker Desktop
 - mySQL version 8
-
+- .env file with the following fields: `MYSQL_ROOT_PASSWORD`,`MYSQL_DATABASE`,`MYSQL_USER`,`MYSQL_PASSWORD`,`MYSQL_PORT`,`FLASK_SECRET_KEY`
 ## How to Run
 1. Open PowerShell
 2. Change working directory to installation folder (```cd $env:HOMEPATH\Documents\GitHub\PassUTD```)
