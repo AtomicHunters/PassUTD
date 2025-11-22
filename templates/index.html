@@ -29,17 +29,17 @@
     </div>
 
     <!-- Username and Password -->
-    <p class="text-gray-600"><strong>User:</strong> {{ p.username }}</p>
+    <p class="text-gray-600"><strong>Username:</strong> {{ p.username }}</p>
 
-    <div class="flex items-center space-x-2 text-gray-500 font-mono">
+    <div class="flex items-center justify-between text-gray-500 font-mono">
     <!-- Password Display -->
     <p class="text-gray-500 font-mono flex items-center space-x-2">
-        <strong>Pass:</strong>
+        <strong>Password:</strong>
         <span class="password-text {% if show_id == p.passwordID %}visible{% endif %}">
             {% if show_id == p.passwordID %}
                 {{ p.password }}
             {% else %}
-                ••••••••••
+                ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
             {% endif %}
           </span>
     </p>
