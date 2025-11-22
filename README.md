@@ -7,6 +7,7 @@ This app is a work in progress and is currently incomplete.
 - Flask DB Library `pip install flask_mysqldb`
 - Dotenv `pip install dotenv`
 - Argon `pip install argon2-cffi`
+- Cryptograpgy `pip install cryptography`
 - Docker Desktop
 - mySQL version 8
 - .env file with the following fields: `MYSQL_ROOT_PASSWORD`,`MYSQL_DATABASE`,`MYSQL_USER`,`MYSQL_PASSWORD`,`MYSQL_PORT`,`FLASK_SECRET_KEY`
