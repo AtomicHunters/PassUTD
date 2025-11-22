@@ -190,12 +190,12 @@ def login():
         if user is None:
             return render_template('login.html', msg="Login failed")
 
-        if not verify_password(user['password'], login_password):
+        if not verify_password(user['loginPsswd'], login_password):
             return render_template('login.html', msg="Login failed")
 
         key = derive_key(login_password, user['salt'])
         session['key'] = base64.b64encode(key).decode()
-        session['userID'] = user['user_userID']
+        session['userID'] = user['userID']
 
         return redirect(url_for('index'))
 
@@ -217,7 +217,7 @@ def register():
 
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'INSERT INTO user (username, password, salt) VALUES (%s, %s, %s)',
+            'INSERT INTO user (username, loginPsswd, salt) VALUES (%s, %s, %s)',
             (username, hashed, salt)
         )
         mysql.connection.commit()
