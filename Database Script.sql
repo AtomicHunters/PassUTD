@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `username` VARCHAR(16) NOT NULL,
   `loginPsswd` VARCHAR(256) NOT NULL,
   `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `salt` VARBINARY(16) NOT NULL,
+  `salt` VARBINARY(16) NULL,
   PRIMARY KEY (`userID`));
 
 

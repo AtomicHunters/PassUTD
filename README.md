@@ -5,6 +5,7 @@ This app is a work in progress and is currently incomplete.
 - Python 3.x
 - Flask library `pip install flask`
 - Flask DB Library `pip install flask_mysqldb`
+- Dotenv `pip install dotenv`
 - Docker Desktop
 - mySQL version 8
 
