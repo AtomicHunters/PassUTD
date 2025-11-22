@@ -88,12 +88,12 @@ def login():
         user = cursor.fetchone()
         if(user is None): # no username in records
             msg = 'Login failed'
-            return render_template(msg=msg)
-        elif user['password'] != password: # wrong password
+            return render_template('login.html',msg=msg)
+        elif user['loginPsswd'] != password: # wrong password
             msg = 'Login failed'
-            return render_template(msg=msg)
+            return render_template('login.html',msg=msg)
         else:
-            session['userID'] = user['user_userID']
+            session['userID'] = user['userID']
             return redirect(url_for('index'))
     return render_template('login.html') # add login.html
 
@@ -105,12 +105,13 @@ def register():
         password2 = request.form["confPassword"] # hash this
         if(password != password2): # password mismatch
             msg = 'Registration failed'
-            return render_template(msg=msg)
+            return render_template('register.html',msg=msg)
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'INSERT INTO user (username, password) VALUES (%s, %s)',
+            'INSERT INTO user (username, loginPsswd) VALUES (%s, %s)',
             (username, password,) # timestamp and userID auto increment
         )
+        mysql.connection.commit()
         return redirect(url_for('login'))
     return render_template('register.html') # add register.html
 
