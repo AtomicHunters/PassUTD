@@ -27,11 +27,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `username` VARCHAR(16) NOT NULL,
   `loginPsswd` VARCHAR(256) NOT NULL,
   `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-<<<<<<< Updated upstream
-=======
   `salt` VARBINARY(16) NOT NULL,
-  `userID` INT AUTO_INCREMENT NOT NULL,
->>>>>>> Stashed changes
   PRIMARY KEY (`userID`));
 
 

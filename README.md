@@ -4,7 +4,8 @@ This app is a work in progress and is currently incomplete.
 ## Requirements
 - Python 3.x
 - Flask library `pip install flask`
-- docker desktop (for Windows based systems)
+- Flask DB Library `pip install flask_mysqldb`
+- Docker Desktop
 - mySQL version 8
 
 ## How to Run
