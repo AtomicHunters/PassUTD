@@ -64,6 +64,9 @@ def index():
             )
             mysql.connection.commit()
             return redirect(url_for('index'))
+        if action == 'edit':
+            session['passID'] = passID
+            return redirect(url_for('edit_password'))
     return redirect(url_for('index'))
 
 def tag_color(tag):
@@ -98,6 +101,45 @@ def add_password():
         msg = 'Added password successfully'
         return render_template("add_password.html", msg=msg)
     return render_template("add_password.html")
+
+@app.route("/edit_password", methods=['GET','POST'])
+def edit_password():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    passID = session.pop('passID', None)
+    if not passID:
+        return redirect(url_for('index'))
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(
+        'SELECT * FROM vault WHERE entryID = %s',
+        (passID,)
+    )
+    pw = cursor.fetchone()
+    encryptPass = pw.pop('encryptPassword', None)
+
+    pw['password'] = encryptPass
+    if request.method == "POST":
+        entryID = passID
+        site = request.form["site"]
+        username = request.form["username"]
+        password = request.form["password"]
+        category = request.form["category"]
+        tag = request.form["tag"]
+        cursor.execute(
+            'UPDATE vault '
+            'SET serviceUsername=%s, serviceName=%s, serviceCategory=%s, encryptPassword = %s, serviceTag=%s'
+            'WHERE entryID = %s',
+            (username, site, category, password, tag, entryID)
+        )
+        cursor.connection.commit()
+        return redirect(url_for('index'))
+    session['passID'] = passID
+    return render_template('edit_password.html', pw=pw)
+
+
+
+
+
 
 @app.route("/login", methods=['GET','POST'])
 def login():
