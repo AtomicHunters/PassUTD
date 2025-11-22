@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `mydb`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `username` VARCHAR(16) NOT NULL,
-  `loginPsswd` VARCHAR(32) NOT NULL,
+  `loginPsswd` VARCHAR(129) NOT NULL,
   `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `userID` INT NOT NULL,
+  `userID` INT AUTO_INCREMENT NOT NULL,
   PRIMARY KEY (`userID`));
 
 
@@ -36,12 +36,13 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
 DROP TABLE IF EXISTS `mydb`.`vault` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`vault` (
-  `entryID` INT NOT NULL,
+  `entryID` VARCHAR(45) NOT NULL,
   `user_userID` INT NOT NULL,
   `serviceUsername` VARCHAR(45) NULL,
   `serviceName` VARCHAR(45) NULL,
   `serviceCategory` VARCHAR(45) NULL,
-  `encryptPassword` VARCHAR(45) NULL,
+  `serviceTag` VARCHAR(45) NULL,
+  `encryptPassword` VARCHAR(129) NULL,
   `timeCreated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`entryID`, `user_userID`),
   INDEX `fk_vault_user_idx` (`user_userID` ASC) VISIBLE,
@@ -56,3 +57,4 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
