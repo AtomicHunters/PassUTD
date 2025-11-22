@@ -38,6 +38,7 @@ def index():
             )
         for row in cursor.fetchall():
             passwords.append({
+                "passwordID": row['entryID'],
                 "site": row["serviceName"],
                 "username": row["serviceUsername"],
                 "password": "••••••••",
@@ -48,8 +49,22 @@ def index():
                 }
             })
 
-    categories = ["All", "Banking", "Social Media", "Work", "Other"]
-    return render_template("index.html", passwords=passwords, categories=categories, show_add=True)
+        categories = ["All", "Banking", "Social Media", "Work", "Other"]
+        return render_template("index.html", passwords=passwords, categories=categories, show_add=True)
+    if request.method == 'POST':
+        passID = request.form['password_id']
+        action = request.form['action']
+        if passID == '' or action == '':
+            return redirect(url_for('index'))
+        if action == 'delete':
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(
+                'DELETE FROM vault WHERE entryID = %s',
+                (passID,)
+            )
+            mysql.connection.commit()
+            return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 def tag_color(tag):
     match tag:

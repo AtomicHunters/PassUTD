@@ -34,21 +34,28 @@
 
     <!-- Action Buttons -->
     <div class="mt-4 flex space-x-2">
-      <button 
-        class="px-4 py-2 bg-gray-100 rounded-2xl 
-               hover:bg-gray-200 transform transition duration-200 ease-in-out 
-               hover:scale-105 hover:shadow-lg"
-      >
-        Edit
-      </button>
+        <form method="POST" action="/">
+            <input type="hidden" name="password_id" value="{{ p.passwordID }}">
+            <input type="hidden" name="action" value="edit">
+                <button
+                        class="px-4 py-2 bg-gray-100 rounded-2xl
+                        hover:bg-gray-200 transform transition duration-200 ease-in-out
+                        hover:scale-105 hover:shadow-lg">
+                Edit
+            </button>
+        </form>
 
-      <button 
-        class="px-4 py-2 bg-red-300 text-red-900 rounded-2xl 
-               hover:bg-red-400 transform transition duration-200 ease-in-out 
-               hover:scale-105 hover:shadow-lg"
-      >
-        Delete
-      </button>
+        <form method="POST" action="/" onsubmit="return confirm('Are you sure you want to delete this password?');">
+            <input type="hidden" name="password_id" value="{{ p.passwordID }}">
+            <input type="hidden" name="action" value="delete">
+            <button
+                    class="px-4 py-2 bg-red-300 text-red-900 rounded-2xl
+                           hover:bg-red-400 transform transition duration-200 ease-in-out
+                           hover:scale-105 hover:shadow-lg"
+            >
+            Delete
+            </button>
+        </form>
     </div>
   </div>
   {% endfor %}
