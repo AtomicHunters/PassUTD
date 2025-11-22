@@ -6,6 +6,7 @@ This app is a work in progress and is currently incomplete.
 - Flask library `pip install flask`
 - Flask DB Library `pip install flask_mysqldb`
 - Dotenv `pip install dotenv`
+- Argon `pip install argon2-cffi`
 - Docker Desktop
 - mySQL version 8
 
