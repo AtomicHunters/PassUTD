@@ -176,7 +176,8 @@ def edit_password():
     if "userID" not in session:
         return redirect(url_for('login'))
 
-    passID = session.pop('passID', None)
+    passID = session.get('passID')
+    app.logger.debug(passID)
     if not passID:
         return redirect(url_for('index'))
 
@@ -190,7 +191,6 @@ def edit_password():
         new_password = request.form["password"]
         category = request.form["category"]
         tag = request.form["tag"]
-
         key = base64.b64decode(session['key'])
         encrypted = encrypt_vault_entry(key, new_password)
 
@@ -198,12 +198,13 @@ def edit_password():
         nonce = encrypted["nonce"]
 
         cursor.execute(
-            'UPDATE vault SET serviceUsername=%s, serviceName=%s, serviceCategory=%s, encryptPassword=%s, nonce=%s, serviceTag=%s '
+            'UPDATE `vault` SET serviceUsername=%s, serviceName=%s, serviceCategory=%s, encryptPassword=%s, `nonce`=%s, serviceTag=%s '
             'WHERE entryID = %s',
             (username, site, category, ciphertext, nonce, tag, passID)
         )
         cursor.connection.commit()
-
+        app.logger.debug(f"Rows affected: {cursor.rowcount}")
+        session.pop('passID', None)
         return redirect(url_for('index'))
 
     return render_template("edit_password.html", pw=pw)
