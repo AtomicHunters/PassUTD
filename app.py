@@ -177,7 +177,6 @@ def edit_password():
         return redirect(url_for('login'))
 
     passID = session.get('passID')
-    app.logger.debug(passID)
     if not passID:
         return redirect(url_for('index'))
 
@@ -203,7 +202,6 @@ def edit_password():
             (username, site, category, ciphertext, nonce, tag, passID)
         )
         cursor.connection.commit()
-        app.logger.debug(f"Rows affected: {cursor.rowcount}")
         session.pop('passID', None)
         return redirect(url_for('index'))
 
