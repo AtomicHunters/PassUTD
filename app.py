@@ -192,7 +192,6 @@ def edit_password():
         tag = request.form["tag"]
         key = base64.b64decode(session['key'])
         encrypted = encrypt_vault_entry(key, new_password)
-
         ciphertext = encrypted["ciphertext"]
         nonce = encrypted["nonce"]
 
@@ -201,10 +200,10 @@ def edit_password():
             'WHERE entryID = %s',
             (username, site, category, ciphertext, nonce, tag, passID)
         )
+
         cursor.connection.commit()
         session.pop('passID', None)
         return redirect(url_for('index'))
-
     return render_template("edit_password.html", pw=pw)
 
 
