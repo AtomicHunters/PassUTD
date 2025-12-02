@@ -144,7 +144,7 @@ def edit_password():
     if "userID" not in session:
         return redirect(url_for('login'))
 
-    passID = session.pop('passID', None)
+    passID = session.get('passID')
     if not passID:
         return redirect(url_for('index'))
 
@@ -166,12 +166,12 @@ def edit_password():
         nonce = encrypted["nonce"]
 
         cursor.execute(
-            'UPDATE vault SET serviceUsername=%s, serviceName=%s, serviceCategory=%s, encryptPassword=%s, nonce=%s, serviceTag=%s '
+            'UPDATE `vault` SET serviceUsername=%s, serviceName=%s, serviceCategory=%s, encryptPassword=%s, `nonce`=%s, serviceTag=%s '
             'WHERE entryID = %s',
             (username, site, category, ciphertext, nonce, tag, passID)
         )
         cursor.connection.commit()
-
+        session.pop('passID', None)
         return redirect(url_for('index'))
 
     return render_template("edit_password.html", pw=pw)
